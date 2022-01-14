@@ -1,0 +1,9 @@
+date	color	shape	points	quantity
+2021-01-15	red	triangle	3	30
+2021-01-15	red	triangle	3	50
+2021-02-20	red	square	4	10
+2021-02-20	blue	triangle	3	80
+2021-03-10	red	triangle	3	
+2021-03-10	red	oval	0	5
+2021-02-10	red	oval	0	5
+2021-02-10	pink	rectangle	4	400
