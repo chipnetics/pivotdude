@@ -2,100 +2,46 @@
 // Use of this source code (/program) is governed by an MIT license,
 // that can be found in the LICENSE file. Do not remove this header.
 import os
-
-const (
-	usage = 'Usage: pivotdude [SHORT-OPTION]... [STRING]...
-or: pivotdude LONG-OPTION
-
-Pivot input data on specific column combination.
-Note that columns are 0-index based.
-
-  -p (required)         comma-separated list of pivot indexes
-  -h (required)         column to generate header from
-  -v (required)         column of values to extract
-  -f (required)         the input file to pivot
-  -nh                   indicate input file has no header
-     --help             display this help and exit
-     --about            author and licence information
-     --version          output version information and exit'
-
-	version = 'pivotdude 0.0.1'
-
-	about = "Copyright (c) 2022 jeffrey -at- ieee.org. All rights reserved.
-Use of this source code (/program) is governed by an MIT license,
-that can be found in the LICENSE file."
-)
+import flag
 
 fn main()
 {
-	mut file_in := ""
+	mut fp := flag.new_flag_parser(os.args)
+    fp.application('pivotdude')
+    fp.version('v0.0.1\nCopyright (c) 2022 jeffrey -at- ieee.org. All rights \
+	reserved.\nUse of this source code (/program) is governed by an MIT \
+	license,\nthat can be found in the LICENSE file.')
+    fp.description('\nPivot input data on specific column combination.\n\
+	Note that columns are 0-index based.')
+    fp.skip_executable()
+    pivot_column_arg := fp.string('pivot', `p`, "", 
+								'Comma-separated list of pivot indexes.')
+	value_column := fp.int('value', `v`, -1, 
+								'Column of values to extract.')
+	header_column := fp.int('header', `h`, -1, 
+								'Column to generate header from.')
+	has_header := fp.bool('no-header', `n`, true, 
+								'Indicate input file has no header.')
+	file_in := fp.string('file-in', `f`, "", 
+								'Input file to pivot.')
 
-	mut pivot_column := []string{}
-	mut value_column := -1
-	mut header_column := -1
-	mut has_header := true
+	additional_args := fp.finalize() or {
+        eprintln(err)
+        println(fp.usage())
+        return
+    }
 
-	mut idx := 1
-	if os.args.len ==1
+	if pivot_column_arg.len==0 || value_column==-1 || header_column==-1 ||
+		file_in.len==0
 	{
-		println(usage)
-		exit(0)
-	}
-	for idx < os.args.len
-	{
-		match os.args[idx] {
-			"--help" {
-				println(usage)
-				exit(0)
-			}
-			"--version" {
-				println(version)
-				exit(0)
-			}
-			"--about" {
-				println(about)
-				exit(0)
-			}
-			"-f" {
-				file_in = os.args[idx+1]
-			}
-			"-p" {
-				pivot_column = os.args[idx+1].split(",")
-			}
-			"-h" {
-				header_column = os.args[idx+1].int()
-			}
-			"-v" {
-				value_column = os.args[idx+1].int()
-			}
-			"-nh" {
-				has_header = false
-			}
-			else
-			{
-			}
-		}
-		idx++
+        println(fp.usage())
+        return
 	}
 
-	// CLI Error checks
-	if value_column == -1 {
-		eprintln("Must specify -v flag. See --help for details.")
-		exit(0)
-	}
-	else if pivot_column.len == 0 {
-		eprintln("Must specify -p flag. See --help for details.")
-		exit(0)
-	}
-	else if header_column == -1 {
-		eprintln("Must specify -h flag. See --help for details.")
-		exit(0)
-	}
-	else if file_in.len == 0 {
-		eprintln("Must specify -f flag. See --help for details.")
-		exit(0)
-	}
-	
+    additional_args.join_lines()
+
+	pivot_column := pivot_column_arg.split(",")
+
 	lines := os.read_lines(file_in) or {panic(err)}
 
 	mut data_array := []Data{}
