@@ -6,9 +6,9 @@ Pivotdude can be ran manually, or integrated into an automated-process/work-flow
 
 # Project Motivation
 
-Pivotting data can be accomplished in numerous ways; however for everyday users it is typically done in Excel.  The problem with Excel is that to pivot against a combination of columns, things become janky fast; values are appended together, pivot tables become nested and need reformatting, processing hangs on vast data, and so forth.  Of course, it also goes without saying this process is not easy to automate.
+We can accomplish pivoting data in multiple ways; however, for most individuals, they typically do it in Excel. The problem with Excel is that to pivot against a combination of columns, things become clunky fast; they append together values to get unique column combinations, pivot tables become nested/indented and need reformatting, processing hangs on vast data (and may not even work when beyond ~50,000 line items), and so forth. Of course, it also goes without saying this process is difficult to automate and is not workable on large data sets.
 
-Pivotdude is a command line approach to easily take tab-separated values from a file and output to stdout the pivot-table.
+Pivotdude is a command line approach to easily take tab-separated values from a file and output to standard output (stdout) the data transformation.
 
 # Pre-Compiled Binaries
 
