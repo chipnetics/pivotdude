@@ -4,6 +4,8 @@ Pivotdude is a utility to pivot data from an input file in a user-desired way.
 
 Pivotdude can be ran manually, or integrated into an automated-process/work-flow.  In general it follows the [UNIX philosophy](https://en.wikipedia.org/wiki/Unix_philosophy) much as possible.
 
+Note: This is the converse-utility of the tool *unpivotdude*, which can be found [here](https://github.com/chipnetics/unpivotdude)
+
 # Project Motivation
 
 We can accomplish pivoting data in multiple ways; however, for most individuals, they typically do it in Excel. The problem with Excel is that to pivot against a combination of columns, things become clunky fast; they append together values to get unique column combinations, pivot tables become nested/indented and need reformatting, processing hangs on vast data (and may not even work when beyond ~50,000 line items), and so forth. Of course, it also goes without saying this process is difficult to automate and is not workable on large data sets.
